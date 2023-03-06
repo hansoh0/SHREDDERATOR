@@ -77,7 +77,7 @@ public class Main {
 	 */
 	public static boolean confirm(Scanner reader, String usrDirectory) {
 		while (true) {
-        	// Confirm that the chosen path should be used
+			// Confirm that the chosen path should be used
 			System.out.print(String.format("\nAre you sure you like to use the path \"%s\"?: ", usrDirectory));
 			String confirm = reader.nextLine();
 			// If yes, do this
@@ -101,12 +101,12 @@ public class Main {
 	 */
 	public static void shreddit(File file) {
 		// Rename file
-	    File newFile = new File(file.getParent(), "tmp_" + UUID.randomUUID().toString());
+		File newFile = new File(file.getParent(), "tmp_" + UUID.randomUUID().toString());
 		if (file.renameTo(newFile)) {
-	        file = newFile;
-	    } else {
-	        System.err.println("The file could not be renamed");
-	    }
+			file = newFile;
+		} else {
+			System.err.println("The file could not be renamed");
+		}
 		// Get length of contents
 		long fileLen = file.length();
 		// Overwrite file 3 times
@@ -114,17 +114,17 @@ public class Main {
 			// Make random byte stream
 			SecureRandom random = new SecureRandom();
 			byte[] data = new byte[(int) fileLen];
-	        random.nextBytes(data);
-	        try {
+			random.nextBytes(data);
+			try {
 				java.nio.file.Files.write(file.toPath(), data);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}     
-        // Delete the file or give error
-        if (!file.delete()) {
-            System.err.println("Failed to delete file");
-            return;
-        }
+		} 
+		// Delete the file or give error
+		if (!file.delete()) {
+		    System.err.println("Failed to delete file");
+		    return;
+		}
 	}
 }
