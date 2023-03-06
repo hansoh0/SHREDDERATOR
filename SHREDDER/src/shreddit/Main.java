@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import java.util.Scanner;
 import java.util.UUID;
 /**
- * Program takes a user supplied directory and overwrites and deletes, or shreds, the files within
+ * Program takes a user supplied directory and overwrites and removes the files within
  * @author saucecan
  * Not for misuse.
  */
