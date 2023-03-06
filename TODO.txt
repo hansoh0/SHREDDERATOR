@@ -1,1 +1,2 @@
 1. Implement functionaity to zero the byte stream of the file.
+1. Implement functionaity to zero the metadata of the file.
