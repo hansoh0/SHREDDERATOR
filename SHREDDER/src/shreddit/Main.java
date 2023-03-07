@@ -1,11 +1,12 @@
 package shreddit;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.security.SecureRandom;
-import java.util.Scanner;
+import java.util.*;
 import java.util.UUID;
 /**
- * Program takes a user supplied directory and overwrites and removes the files within
+ * Program takes a user supplied directory and overwrites and deletes, or shreds, the files within
  * @author saucecan
  * Not for misuse.
  */
@@ -77,7 +78,7 @@ public class Main {
 	 */
 	public static boolean confirm(Scanner reader, String usrDirectory) {
 		while (true) {
-			// Confirm that the chosen path should be used
+        	// Confirm that the chosen path should be used
 			System.out.print(String.format("\nAre you sure you like to use the path \"%s\"?: ", usrDirectory));
 			String confirm = reader.nextLine();
 			// If yes, do this
@@ -101,12 +102,12 @@ public class Main {
 	 */
 	public static void shreddit(File file) {
 		// Rename file
-		File newFile = new File(file.getParent(), "tmp_" + UUID.randomUUID().toString());
+	    File newFile = new File(file.getParent(), "tmp_" + UUID.randomUUID().toString());
 		if (file.renameTo(newFile)) {
-			file = newFile;
-		} else {
-			System.err.println("The file could not be renamed");
-		}
+	        file = newFile;
+	    } else {
+	        System.err.println("The file could not be renamed");
+	    }
 		// Get length of contents
 		long fileLen = file.length();
 		// Overwrite file 3 times
@@ -114,17 +115,42 @@ public class Main {
 			// Make random byte stream
 			SecureRandom random = new SecureRandom();
 			byte[] data = new byte[(int) fileLen];
-			random.nextBytes(data);
-			try {
+	        random.nextBytes(data);
+	        try {
 				java.nio.file.Files.write(file.toPath(), data);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} 
-		// Delete the file or give error
-		if (!file.delete()) {
-		    System.err.println("Failed to delete file");
-		    return;
+		}
+		zeroit(file);
+        // Delete the file or give error
+        if (!file.delete()) {
+            System.err.println("Failed to delete file");
+            return;
+        }
+	}
+	
+	/**
+	 * Method Zeros the file, the true shred method
+	 * @param file is the file to be shredded
+	 */
+	public static void zeroit(File file) {
+		
+        try (FileOutputStream out = new FileOutputStream(file);) {
+	        // Get length of file data
+	        long length = file.length();
+	        // Create a new byte buffer thats all zeros
+	        byte[] buffer = new byte[1024];
+	        Arrays.fill(buffer, (byte) 0);
+	        // Start overwriting
+	        while (length > 0) {
+	            int bytesToWrite = (int) Math.min(length, buffer.length);
+	            out.write(buffer, 0, bytesToWrite);
+	            length -= bytesToWrite;
+	        }
+		} catch (Exception e){
+			System.out.println("Unable to open file for zeroing.");
+			e.printStackTrace();
 		}
 	}
 }
