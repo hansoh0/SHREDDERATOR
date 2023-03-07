@@ -139,7 +139,7 @@ public class Main {
         try (FileOutputStream out = new FileOutputStream(file);) {
             // Get length of file data
             long length = file.length();
-            // Create a new byte buffer thats all zeros
+            // Create a new byte stream thats all zeros
             byte[] buffer = new byte[1024];
             Arrays.fill(buffer, (byte) 0);
             // Start overwriting
