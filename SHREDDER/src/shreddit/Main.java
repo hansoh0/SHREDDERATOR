@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 /**
- * Program takes a user supplied directory and overwrites and shreds, the files within
+ * Program takes a user supplied directory and overwrites and shreds the files within
  * @author saucecan
  * Not for misuse.
  */
