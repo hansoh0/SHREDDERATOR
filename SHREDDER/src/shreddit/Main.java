@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * Program takes a user supplied directory and overwrites and shreds the files within
- * @author saucecan
+ * @author hansoho
  * Not for misuse.
  */
 public class Main {
